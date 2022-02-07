@@ -13,6 +13,7 @@ dotenv.config();
   imports: [
     GraphQLModule.forRoot({
       autoSchemaFile: 'src/schema.gql',
+      playground: true,
       context: ({ req, res }) => ({ req, res, redis }),
       cors: {
         origin: process.env.CLIENT_SIDE_URL,
