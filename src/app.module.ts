@@ -14,6 +14,8 @@ dotenv.config();
     GraphQLModule.forRoot({
       autoSchemaFile: 'src/schema.gql',
       playground: true,
+      introspection: true,
+      debug: false,
       context: ({ req, res }) => ({ req, res, redis }),
       cors: {
         origin: process.env.CLIENT_SIDE_URL,
