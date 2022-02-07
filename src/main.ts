@@ -33,7 +33,7 @@ async function bootstrap() {
       name: COOKIE_NAME,
       secret: process.env.SESSION_SECRET,
       resave: false,
-      saveUninitialized: true,
+      saveUninitialized: false,
       cookie: {
         maxAge: 1000 * 60 * 60 * 24 * 365 * 10, // 10 years
         secure: __prod__,
