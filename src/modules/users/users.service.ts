@@ -1,7 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { Prisma } from '@prisma/client';
 import * as argon2 from 'argon2';
-import { request } from 'http';
 import { User } from '../../@generated/prisma-nestjs-graphql/user/user.model';
 import { PrismaService } from '../prisma.service';
 

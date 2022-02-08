@@ -22,6 +22,7 @@ dotenv.config();
         credentials: true,
       },
     }),
+
     UsersModule,
   ],
   controllers: [AppController],
