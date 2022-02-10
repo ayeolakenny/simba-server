@@ -10,10 +10,10 @@ export class UsersResolver {
 
   @Mutation(() => User)
   async signup(
-    @Args('signupInput') signupInput: UserCreateInput,
+    @Args('input') input: UserCreateInput,
     @Context() { req }: MyContext,
   ) {
-    return await this.usersService.signup(signupInput, req);
+    return await this.usersService.signup(input, req);
   }
 
   @Query(() => [User], { name: 'users' })
