@@ -6,6 +6,7 @@ import * as dotenv from 'dotenv';
 
 import { redis } from './redis';
 import { UsersModule } from './modules/users/users.module';
+import { GraphQLError } from 'graphql';
 
 dotenv.config();
 
@@ -20,6 +21,17 @@ dotenv.config();
       cors: {
         origin: process.env.CLIENT_SIDE_URL,
         credentials: true,
+      },
+
+      formatError: (error: GraphQLError) => {
+        const graphQLFormattedError = {
+          code: error.extensions.code,
+          error: error.extensions.response.error,
+          message: error.extensions.response.message,
+          status: error.extensions.response.statusCode,
+        };
+
+        return graphQLFormattedError;
       },
     }),
 

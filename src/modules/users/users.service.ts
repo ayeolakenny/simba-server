@@ -1,6 +1,8 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { Prisma } from '@prisma/client';
 import * as argon2 from 'argon2';
+
+import { MESSAGES } from '../../core/messages';
 import { User } from '../../@generated/prisma-nestjs-graphql/user/user.model';
 import { PrismaService } from '../prisma.service';
 
@@ -10,6 +12,10 @@ export class UsersService {
 
   // Signup user
   async signup(input: Prisma.UserCreateInput, req: any): Promise<User> {
+    const errMessage = [];
+    const emailUsed = await this.findUnique({ email: input.email });
+    if (emailUsed) errMessage.push(MESSAGES.AUTH.EMAIL_CONFLICT);
+    if (errMessage.length) throw new BadRequestException(errMessage);
     const hashedPassword = await argon2.hash(input.password);
     const user = await this.prisma.user.create({
       data: {
@@ -21,7 +27,7 @@ export class UsersService {
     return user;
   }
 
-  async findById(
+  async findUnique(
     userWhereUniqueInput: Prisma.UserWhereUniqueInput,
   ): Promise<User> {
     return this.prisma.user.findUnique({
@@ -32,7 +38,7 @@ export class UsersService {
   // Get current logged in user
   async me(req: any): Promise<User> {
     if (!req.session.userId) return null;
-    const user = await this.findById({ id: req.session.userId });
+    const user = await this.findUnique({ id: req.session.userId });
     return user;
   }
 

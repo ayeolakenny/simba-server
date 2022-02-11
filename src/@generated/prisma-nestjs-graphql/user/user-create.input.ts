@@ -21,4 +21,10 @@ export class UserCreateInput {
     @Validator.IsNotEmpty()
     @Validator.IsString()
     password!: string;
+
+    @Field(() => Date, {nullable:true})
+    createdAt?: Date | string;
+
+    @Field(() => Date, {nullable:true})
+    updatedAt?: Date | string;
 }

@@ -16,4 +16,10 @@ export class User {
 
     @Field(() => String, {nullable:false})
     password!: string;
+
+    @Field(() => Date, {nullable:false})
+    createdAt!: Date;
+
+    @Field(() => Date, {nullable:false})
+    updatedAt!: Date;
 }

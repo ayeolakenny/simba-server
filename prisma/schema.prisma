@@ -18,16 +18,18 @@ datasource db {
 }
 
 model User {
-  id       Int    @id @default(autoincrement())
+  id        Int      @id @default(autoincrement())
   /// @Validator.IsEmail()
   /// @Validator.IsNotEmpty()
-  email    String @unique
+  email     String   @unique
   /// @Validator.MinLength(2)
   /// @Validator.IsNotEmpty()
   /// @Validator.IsString()
-  name     String
+  name      String
   /// @Validator.MinLength(6)
   /// @Validator.IsNotEmpty()
   /// @Validator.IsString()
-  password String
+  password  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
