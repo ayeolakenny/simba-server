@@ -1,24 +1,24 @@
 import { Field } from '@nestjs/graphql';
 import { InputType } from '@nestjs/graphql';
 import * as Validator from 'class-validator';
+import { TransactionCreateNestedManyWithoutRecieverInput } from '../transaction/transaction-create-nested-many-without-reciever.input';
+import { TransactionCreateNestedManyWithoutSenderInput } from '../transaction/transaction-create-nested-many-without-sender.input';
+import { BalanceCreateNestedManyWithoutUserInput } from '../balance/balance-create-nested-many-without-user.input';
 
 @InputType()
 export class UserCreateInput {
 
     @Field(() => String, {nullable:false})
     @Validator.IsEmail()
-    @Validator.IsNotEmpty()
     email!: string;
 
     @Field(() => String, {nullable:false})
     @Validator.MinLength(2)
-    @Validator.IsNotEmpty()
     @Validator.IsString()
     name!: string;
 
     @Field(() => String, {nullable:false})
     @Validator.MinLength(6)
-    @Validator.IsNotEmpty()
     @Validator.IsString()
     password!: string;
 
@@ -27,4 +27,13 @@ export class UserCreateInput {
 
     @Field(() => Date, {nullable:true})
     updatedAt?: Date | string;
+
+    @Field(() => TransactionCreateNestedManyWithoutRecieverInput, {nullable:true})
+    transactionsTo?: TransactionCreateNestedManyWithoutRecieverInput;
+
+    @Field(() => TransactionCreateNestedManyWithoutSenderInput, {nullable:true})
+    transactionsFrom?: TransactionCreateNestedManyWithoutSenderInput;
+
+    @Field(() => BalanceCreateNestedManyWithoutUserInput, {nullable:true})
+    Balance?: BalanceCreateNestedManyWithoutUserInput;
 }

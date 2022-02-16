@@ -7,6 +7,8 @@ import * as dotenv from 'dotenv';
 import { redis } from './redis';
 import { UsersModule } from './modules/users/users.module';
 import { GraphQLError } from 'graphql';
+import { BalanceModule } from './modules/balance/balance.module';
+import { TransactionModule } from './modules/transaction/transaction.module';
 
 dotenv.config();
 
@@ -36,6 +38,8 @@ dotenv.config();
     }),
 
     UsersModule,
+    BalanceModule,
+    TransactionModule,
   ],
   controllers: [AppController],
   providers: [AppService],

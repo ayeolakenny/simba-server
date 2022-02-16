@@ -11,6 +11,5 @@ export class UserWhereUniqueInput {
 
     @Field(() => String, {nullable:true})
     @Validator.IsEmail()
-    @Validator.IsNotEmpty()
     email?: string;
 }

@@ -1,8 +1,9 @@
-import { Resolver, Query, Mutation, Args, Int, Context } from '@nestjs/graphql';
+import { Resolver, Query, Mutation, Args, Context } from '@nestjs/graphql';
 import { MyContext } from '../../types';
 import { UserCreateInput } from '../../@generated/prisma-nestjs-graphql/user/user-create.input';
 import { User } from '../../@generated/prisma-nestjs-graphql/user/user.model';
 import { UsersService } from './users.service';
+import { LoginInput } from './dto/request/login-Input.dto';
 
 @Resolver(() => User)
 export class UsersResolver {
@@ -12,13 +13,23 @@ export class UsersResolver {
   async signup(
     @Args('input') input: UserCreateInput,
     @Context() { req }: MyContext,
-  ) {
+  ): Promise<User> {
     return await this.usersService.signup(input, req);
   }
 
-  @Query(() => [User], { name: 'users' })
-  findAll() {
+  @Query(() => [User])
+  findAllUsers() {
     return this.usersService.findAll();
+  }
+
+  @Query(() => User)
+  findUserById(@Args('userId') userId: number) {
+    return this.usersService.findUnique({ id: userId });
+  }
+
+  @Query(() => User)
+  findUserByEmail(@Args('email') email: string) {
+    return this.usersService.findUnique({ email: email });
   }
 
   // Get logged in user
@@ -27,18 +38,18 @@ export class UsersResolver {
     return this.usersService.me(req);
   }
 
-  // @Query(() => User, { name: 'user' })
-  // findOne(@Args('id', { type: () => Int }) id: number) {
-  //   return this.usersService.findOne(id);
-  // }
+  //Login
+  @Mutation(() => User)
+  login(
+    @Args('input') input: LoginInput,
+    @Context() { req }: MyContext,
+  ): Promise<User> {
+    return this.usersService.login(input, req);
+  }
 
-  // @Mutation(() => User)
-  // updateUser(@Args('updateUserInput') updateUserInput: UpdateUserInput) {
-  //   return this.usersService.update(updateUserInput.id, updateUserInput);
-  // }
-
-  // @Mutation(() => User)
-  // removeUser(@Args('id', { type: () => Int }) id: number) {
-  //   return this.usersService.remove(id);
-  // }
+  // Logout a user
+  @Mutation(() => Boolean)
+  async logout(@Context() { req, res }: MyContext): Promise<Boolean> {
+    return this.usersService.logout(req, res);
+  }
 }

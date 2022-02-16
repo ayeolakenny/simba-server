@@ -11,18 +11,15 @@ export class UserCreateManyInput {
 
     @Field(() => String, {nullable:false})
     @Validator.IsEmail()
-    @Validator.IsNotEmpty()
     email!: string;
 
     @Field(() => String, {nullable:false})
     @Validator.MinLength(2)
-    @Validator.IsNotEmpty()
     @Validator.IsString()
     name!: string;
 
     @Field(() => String, {nullable:false})
     @Validator.MinLength(6)
-    @Validator.IsNotEmpty()
     @Validator.IsString()
     password!: string;
 
