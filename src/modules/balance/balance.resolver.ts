@@ -8,11 +8,6 @@ import { UserBalances } from './dto/user-balance.input';
 export class BalanceResolver {
   constructor(private readonly balanceService: BalanceService) {}
 
-  // @Mutation(() => Balance)
-  // createBalance(@Args('userId') userId: number) {
-  //   return this.balanceService.create(userId);
-  // }
-
   @Mutation(() => Boolean)
   removeFromBalance(
     @Args('userId') userId: number,
