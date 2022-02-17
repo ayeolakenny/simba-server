@@ -21,7 +21,7 @@ dotenv.config();
       debug: false,
       context: ({ req, res }) => ({ req, res, redis }),
       cors: {
-        origin: process.env.CLIENT_SIDE_URL,
+        origin: process.env.CORS_ORIGIN,
         credentials: true,
       },
 
