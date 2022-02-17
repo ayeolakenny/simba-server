@@ -3,11 +3,12 @@ import * as dotenv from 'dotenv';
 
 dotenv.config();
 
-export const redis = new Redis(process.env.REDIS_URL, {
-  tls: {
-    rejectUnauthorized: false,
-  },
-});
+export const redis = new Redis(
+  process.env.REDIS_URL,
+  // tls: {
+  //   rejectUnauthorized: false,
+  // },
+);
 
 // const REDIS_URL = process.env.REDIS_URL;
 // export const redis = REDIS_URL.includes('rediss://')
