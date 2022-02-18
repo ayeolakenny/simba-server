@@ -7,11 +7,12 @@ import { AppModule } from './app.module';
 import { COOKIE_NAME, __prod__ } from './constants';
 import { redis } from './redis';
 import { ValidationPipe } from '@nestjs/common';
+import { NestExpressApplication } from '@nestjs/platform-express';
 
 dotenv.config();
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create<NestExpressApplication>(AppModule);
 
   app.useGlobalPipes(new ValidationPipe());
 
@@ -24,6 +25,8 @@ async function bootstrap() {
 
   const RedisStore = connectRedis(session);
 
+  app.set('trust proxy', 1);
+
   app.use(
     session({
       store: new RedisStore({
@@ -34,7 +37,6 @@ async function bootstrap() {
       secret: process.env.SESSION_SECRET,
       resave: false,
       saveUninitialized: true,
-      proxy: true,
       cookie: {
         maxAge: 1000 * 60 * 60 * 24 * 365 * 10, // 10 years
         secure: true,
