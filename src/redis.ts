@@ -8,6 +8,7 @@ export const redis = new Redis(process.env.REDIS_URL, {
   //   rejectUnauthorized: false,
   // },
   db: 0,
+  connectTimeout: 10000,
 });
 
 // const REDIS_URL = process.env.REDIS_URL;

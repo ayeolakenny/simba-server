@@ -2,7 +2,6 @@ import { NestFactory } from '@nestjs/core';
 import * as connectRedis from 'connect-redis';
 import * as session from 'express-session';
 import * as dotenv from 'dotenv';
-import * as cors from 'cors';
 
 import { AppModule } from './app.module';
 import { COOKIE_NAME, __prod__ } from './constants';
@@ -23,13 +22,6 @@ async function bootstrap() {
     credentials: true,
   });
 
-  app.use(
-    cors({
-      origin: process.env.CORS_ORIGIN,
-      credentials: true,
-    }),
-  );
-
   const RedisStore = connectRedis(session);
 
   app.use(
@@ -41,13 +33,13 @@ async function bootstrap() {
       name: COOKIE_NAME,
       secret: process.env.SESSION_SECRET,
       resave: false,
-      saveUninitialized: false,
+      saveUninitialized: true,
       proxy: true,
       cookie: {
         maxAge: 1000 * 60 * 60 * 24 * 365 * 10, // 10 years
-        secure: true,
+        secure: false,
         httpOnly: true,
-        // sameSite: 'lax',
+        sameSite: 'lax',
       },
     }),
   );
