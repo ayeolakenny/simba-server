@@ -2,6 +2,7 @@ import { NestFactory } from '@nestjs/core';
 import * as connectRedis from 'connect-redis';
 import * as session from 'express-session';
 import * as dotenv from 'dotenv';
+import * as cors from 'cors';
 
 import { AppModule } from './app.module';
 import { COOKIE_NAME, __prod__ } from './constants';
@@ -21,6 +22,13 @@ async function bootstrap() {
     allowedHeaders: 'Content-Type, Accept',
     credentials: true,
   });
+
+  app.use(
+    cors({
+      origin: process.env.CORS_ORIGIN,
+      credentials: true,
+    }),
+  );
 
   const RedisStore = connectRedis(session);
 
